@@ -31,14 +31,14 @@ public class CarEngine : MonoBehaviour {
         Drive();
         CheckWaypointDistance();
 	}
-
+    //to steer wheel colliders
     private void ApplySteer() {
         Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
         float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
         Front_Wheel_Left.steerAngle = newSteer;
         Front_Wheel_Right.steerAngle = newSteer;
     }
-
+    //to make car move
     private void Drive() {
         currentSpeed = 2 * Mathf.PI * Front_Wheel_Left.radius * Front_Wheel_Left.rpm * 60 / 1000;
 
@@ -50,7 +50,7 @@ public class CarEngine : MonoBehaviour {
             Front_Wheel_Right.motorTorque = 0;
         }
     }
-
+    //loop for movement on each node
     private void CheckWaypointDistance() {
         if(Vector3.Distance(transform.position, nodes[currentNode].position) < 3f) {
             if(currentNode == nodes.Count - 1) {
