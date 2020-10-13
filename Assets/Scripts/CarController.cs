@@ -7,6 +7,8 @@ public class CarController : MonoBehaviour
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
 
+// inputs to store data for horizontalnumber, verticalnumber, 
+// steerangle, breakforce, and boolean for breaking and boost.
     private float horizontalInput;
     private float verticalInput;
     private float currentSteerAngle;
@@ -14,12 +16,15 @@ public class CarController : MonoBehaviour
     private bool isBreaking;
     private bool isBoosting;
 
+//SerializeFields for unity component. 
+//easy adjusting of values through unity components.
     [SerializeField] private float motorForce;
     [SerializeField] private float breakForce;
     [SerializeField] private float maxSteerAngle;
     [SerializeField] private float motorBoost;
 
-
+// Wheel Transform and Colliders to help with steering and animation of wheels turning,
+// moving forward, backward, etc.
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider;
@@ -30,6 +35,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
 
+
+//FixedUpdate to store different functions.
     private void FixedUpdate()
     {
         GetInput();
@@ -37,6 +44,9 @@ public class CarController : MonoBehaviour
         HandleSteering();
         UpdateWheels();
     }
+
+//GetInput for horizontalinput and verticalinput axis and 
+// isBoost/isBoosting key configuration.
     private void GetInput()
     {
         horizontalInput = Input.GetAxis(HORIZONTAL);
@@ -45,6 +55,8 @@ public class CarController : MonoBehaviour
         isBoosting = Input.GetKey(KeyCode.F1);
     }
 
+//HandleMotor to maintain the variables to 0 when breaking or boosting until
+//Key configurations are pressed.
     private void HandleMotor()
     {
         if (isBreaking)
@@ -70,13 +82,14 @@ public class CarController : MonoBehaviour
             ApplyBoosting();
         }
     }
-
+//Function to help for Boosting
     private void ApplyBoosting()
     {
         frontLeftWheelCollider.motorTorque = motorForce + 1500;
         frontRightWheelCollider.motorTorque = motorForce + 1500;
     }
 
+//Function to help for Breaking
     private void ApplyBreaking()
     {
         frontLeftWheelCollider.brakeTorque = currentbreakForce;
@@ -85,6 +98,7 @@ public class CarController : MonoBehaviour
         rearRightWheelCollider.brakeTorque = currentbreakForce;
     }
 
+//Function to help for Steering
     private void HandleSteering()
     {
         currentSteerAngle = maxSteerAngle * horizontalInput;
@@ -92,6 +106,7 @@ public class CarController : MonoBehaviour
         frontRightWheelCollider.steerAngle = currentSteerAngle;
     }
 
+//Function to update each wheel colliders and Wheel Transform for Unity Components
     private void UpdateWheels()
     {
         UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
@@ -100,6 +115,7 @@ public class CarController : MonoBehaviour
         UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
     }
 
+//Function to update each single wheel with the Wheel Colliders and Transforms.
     private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
     {
         Vector3 pos;

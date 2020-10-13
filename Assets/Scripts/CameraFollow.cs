@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+//SerializedField for Unity Component.
     [SerializeField] private Vector3 offset;
     [SerializeField] private Transform target;
     [SerializeField] private float translateSpeed;
     [SerializeField] private float rotationSpeed;
 
+//Fixed Update for The camera Position values.
     private void FixedUpdate()
     {
         HandleTranslation();
         HandleRotation();
     }
 
+//HandleTranslation and HandleRotation values for the CameraFollow.
     private void HandleTranslation()
     {
         var targetPosition = target.TransformPoint(offset);
